@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather Monitor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial; text-align: center; background-color: #f0f0f0; }
+    .card { background: white; padding: 20px; margin: 20px auto; width: 300px; border-radius: 10px; box-shadow: 0 0 10px #aaa; }
+    .status { font-size: 1.2em; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>🌤️ Weather Dashboard</h1>
+  <div class="card">
+    <p><strong>Date & Time:</strong> %TIME%</p>
+    <p><strong>Temperature:</strong> %TEMP% °C</p>
+    <p><strong>Humidity:</strong> %HUM% %</p>
+    <p><strong>Light Level:</strong> %LIGHT%</p>
+    <p class="status"><strong>Condition:</strong> %WEATHER%</p>
+  </div>
+</body>
+</html>
