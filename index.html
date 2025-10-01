@@ -1,22 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Weather Monitor</title>
+  <title>ESP32 Weather Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family: Arial; text-align: center; background-color: #f0f0f0; }
-    .card { background: white; padding: 20px; margin: 20px auto; width: 300px; border-radius: 10px; box-shadow: 0 0 10px #aaa; }
-    .status { font-size: 1.2em; margin-top: 10px; }
+    body { font-family: Arial, sans-serif; background-color: #f0f0f0; text-align: center; }
+    h1 { margin-top: 20px; }
+    .card { background: white; padding: 20px; margin: 20px auto; width: 90%; max-width: 600px; border-radius: 10px; box-shadow: 0 0 10px #aaa; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background-color: #eee; }
+    .sunny { color: red; }
+    .cloudy { color: green; }
+    .rainy { color: blue; }
   </style>
 </head>
 <body>
-  <h1>🌤️ Weather Dashboard</h1>
+  <h1>🌤️ ESP32 Weather Dashboard</h1>
   <div class="card">
-    <p><strong>Date & Time:</strong> %TIME%</p>
-    <p><strong>Temperature:</strong> %TEMP% °C</p>
-    <p><strong>Humidity:</strong> %HUM% %</p>
-    <p><strong>Light Level:</strong> %LIGHT%</p>
-    <p class="status"><strong>Condition:</strong> %WEATHER%</p>
+    <p><strong>Date & Time:</strong> <span id="time">--:--</span></p>
+    <p><strong>Temperature:</strong> <span id="temp">--</span> °C</p>
+    <p><strong>Humidity:</strong> <span id="hum">--</span> %</p>
+    <p><strong>Light Level:</strong> <span id="light">--</span></p>
+    <p><strong>Condition:</strong> <span id="weather" class="">--</span></p>
   </div>
+
+  <div class="card">
+    <h2>📜 Weather History</h2>
+    <table id="history">
+      <tr>
+        <th>Time</th>
+        <th>Temp (°C)</th>
+        <th>Humidity (%)</th>
+        <th>Light</th>
+        <th>Condition</th>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    // Simulated data — replace with live fetch from ESP32
+    const data = [
+      { time: "12:30", temp: 32.5, hum: 45, light: 800, condition: "Sunny" },
+      { time: "12:00", temp: 30.1, hum: 55, light: 500, condition: "Cloudy" },
+      { time: "11:30", temp: 28.3, hum: 70, light: 200, condition: "Rainy" }
+    ];
+
+    function updateDashboard() {
+      const latest = data[0];
+      document.getElementById("time").textContent = latest.time;
+      document.getElementById("temp").textContent = latest.temp;
+      document.getElementById("hum").textContent = latest.hum;
+      document.getElementById("light").textContent = latest.light;
+      const weatherEl = document.getElementById("weather");
+      weatherEl.textContent = latest.condition;
+      weatherEl.className = latest.condition.toLowerCase();
+
+      const table = document.getElementById("history");
+      for (let i = 1; i < data.length; i++) {
+        const row = table.insertRow();
+        row.insertCell().textContent = data[i].time;
+        row.insertCell().textContent = data[i].temp;
+        row.insertCell().textContent = data[i].hum;
+        row.insertCell().textContent = data[i].light;
+        const condCell = row.insertCell();
+        condCell.textContent = data[i].condition;
+        condCell.className = data[i].condition.toLowerCase();
+      }
+    }
+
+    updateDashboard();
+  </script>
 </body>
 </html>
